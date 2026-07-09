@@ -52,3 +52,14 @@
       (is (nil? (:booking turn)))
       (is (false? @confirmed?))
       (is (s/booking-delegated? turn)))))
+
+(deftest booking-delegated?-rejects-a-fabricated-booking
+  (testing "a hand-built :booking that never went through IBooking/confirm must be
+           rejected, not tautologically accepted -- confirm's own return shape
+           always carries :signed-by (see FixtureBooking above); anything missing
+           it can't have come from a real delegated confirm"
+    (is (false? (s/booking-delegated? {:action :book :booking {:proposal "fabricated"}})))
+    (is (false? (s/booking-delegated? {:action :book :booking {:confirmed? true}})))
+    (testing "a genuinely-confirmed booking (has :signed-by) still passes"
+      (is (true? (s/booking-delegated? {:action :book :booking {:booking {:proposal "x"}
+                                                                 :signed-by "did-sig"}}))))))
