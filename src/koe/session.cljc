@@ -29,5 +29,8 @@
   [turn]
   (or (nil? (:action turn))
       (and (= :book (:action turn))
-           ;; either held (awaiting signature) or a delegated booking object
-           (contains? turn :booking))))
+           (or (nil? (:booking turn))                      ; held: no signature yet, not confirmed
+               (contains? (:booking turn) :signed-by)))))   ; confirmed: only IBooking/confirm's own
+                                                              ; return shape carries :signed-by -- a
+                                                              ; fabricated/hand-built :booking that never
+                                                              ; went through confirm won't have it
