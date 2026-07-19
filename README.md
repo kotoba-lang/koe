@@ -36,6 +36,11 @@ dialog step → optional booking action → TTS out, with **barge-in** (a new pa
 transcript interrupts in-flight TTS). Booking is always **delegated** — the kernel
 never confirms a booking itself.
 
+The closed booking-delegation shape gate also has a native, capability-free
+`.kotoba` implementation for restricted JavaScript and Wasm. Dialog state,
+utterances, TTS/audio, slot proposal, cryptographic signature verification,
+confirmation, and all host ports remain CLJC/host responsibilities.
+
 ```
 clojure -X:test
 ```

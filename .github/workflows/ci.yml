@@ -46,3 +46,17 @@ jobs:
 
       - name: Lint (clj-kondo)
         run: clojure -M:lint
+
+      - name: Compile Kotoba booking gate
+        run: |
+          mkdir -p target/kotoba
+          clojure -M:kotoba compile test/koe/booking_gate_conformance.kotoba \
+            --source-path src --target js-browser --output target/kotoba/booking.mjs
+          clojure -M:kotoba compile test/koe/booking_gate_conformance.kotoba \
+            --source-path src --target wasm32-browser --output target/kotoba/booking.wasm
+
+      - name: Execute booking gate Web and Wasm matrix
+        run: |
+          compiler_src="$(clojure -Spath -M:kotoba | tr ':' '\n' | grep '/compiler/' | head -1)"
+          node scripts/verify-kotoba-booking-gate.mjs target/kotoba/booking.mjs \
+            target/kotoba/booking.wasm "$(dirname "$compiler_src")/runtime/browser-host.mjs"
