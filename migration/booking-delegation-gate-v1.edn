@@ -1,0 +1,13 @@
+{:migration/id :koe/booking-delegation-gate-v1
+ :status :candidate
+ :source-of-truth {:legacy "src/koe/session.cljc"
+                   :kernel "src/koe/booking_gate.kotoba"}
+ :domain {:action [:none :book]
+          :booking-present :binary :signed-by-present :binary
+          :canonical-shapes 3 :valid-shape-cases 8 :verified-cases 64
+          :invalid-encoding-policy :fail-closed}
+ :excluded [:dialog-state :utterance :reply :tts :audio :slot-proposal
+            :signature-verification :booking-confirmation :host-ports]
+ :evidence {:cljc-oracle "test/koe/booking_gate_matrix_test.clj"
+            :kotoba-conformance "test/koe/booking_gate_conformance.kotoba"
+            :web-wasm-verifier "scripts/verify-kotoba-booking-gate.mjs"}}

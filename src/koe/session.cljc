@@ -27,10 +27,11 @@
   "Invariant guard a host can assert in tests: a turn that books must go through
   IBooking (propose/confirm), not fabricate a confirmation locally."
   [turn]
-  (or (nil? (:action turn))
+  (or (and (nil? (:action turn))
+           (nil? (:booking turn)))                         ; ordinary turn: no fabricated booking
       (and (= :book (:action turn))
            (or (nil? (:booking turn))                      ; held: no signature yet, not confirmed
-               (contains? (:booking turn) :signed-by)))))   ; confirmed: only IBooking/confirm's own
+               (some? (:signed-by (:booking turn)))))))    ; confirmed: non-nil member signature
                                                               ; return shape carries :signed-by -- a
                                                               ; fabricated/hand-built :booking that never
                                                               ; went through confirm won't have it
