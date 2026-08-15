@@ -21,6 +21,29 @@ Per the three-way rule, the **reusable** kernel lives in **com-junkawasaki**, wh
 `twilio-compat` (telephony), `whisper-compat` (STT), `elevenlabs-compat` (TTS) and
 `yotei` (booking) into these ports.
 
+## What lives here now (2026-08-15)
+
+`koe` was the ports and the turn loop. It now also carries the telephony side
+that every voice actor needs and none of them should re-implement:
+
+| namespace | |
+|---|---|
+| `koe.ports` | the five host-injected ports |
+| `koe.session` | one turn: utterance → reply, booking always delegated |
+| **`koe.media`** | the carrier's frame protocol, G.711 μ-law, where an utterance ends, the WAV header a speech engine takes |
+| **`koe.carrier`** | inbound webhook admission (signature verification, arrival description, the answer document) |
+| **`koe.arrival`** | whether the presented caller ID is the caller's — forwarded calls are the normal case |
+| **`koe.bridge`** | a whole call as a fold over frames: barge-in, when to speak, when it ends |
+
+Moved out of `cloud-itonami/denwaban`, where they were written: none of it is
+about restaurants. denwaban keeps what is — the reservation dialog, the booking
+delegation to `yotei`, its own lines and consent sentence.
+
+**Still no SDK, no socket, no credential.** `koe.bridge` returns the work to be
+done (`:koe/transcribe`, `:koe/say`) rather than doing it, so the host's socket
+loop is the twenty lines that read a message and write the answers, and every
+decision a live call makes is testable without a telephone.
+
 ## Ports (`koe.ports`)
 
 ```
