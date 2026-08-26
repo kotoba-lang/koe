@@ -122,7 +122,19 @@
     ;; cbSize), and 44 is the PCM-only figure. The test said 44 first; the code
     ;; was right.
     (is (= 46 (count h)))
-    (is (= [(int \R) (int \I) (int \F) (int \F)] (take 4 h)))
+    ;; The bytes are written as numbers, not as `(int \R)`.
+    ;;
+    ;; A character literal is a `Character` on the JVM and a one-character
+    ;; STRING under ClojureScript, where `int` of one is 0 -- so the old
+    ;; expectation `[(int \R) …]` evaluated to `[0 0 0 0]` there, and so did
+    ;; the header the code produced. Both sides degraded together and the
+    ;; assertion passed. That is why this shipped: the test could not fail.
+    (is (= [82 73 70 70] (take 4 h)) "RIFF")
+    (is (= [87 65 86 69] (subvec h 8 12)) "WAVE")
+    (is (= [102 109 116 32] (subvec h 12 16)) "fmt ")
+    (is (= [100 97 116 97] (subvec h 38 42)) "data")
+    (testing "and none of the magic is zero, which is what the bug produced"
+      (is (not-any? zero? (concat (take 4 h) (subvec h 8 16) (subvec h 38 42)))))
     (testing "format tag 7 is μ-law; 1 would be PCM and would transcribe as noise"
       (is (= 7 (nth h 20))))
     (testing "one channel at 8000 Hz"

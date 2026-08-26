@@ -176,6 +176,19 @@
 
 (defn utterance-ms [frames] (* frame-ms (count frames)))
 
+(defn- ascii
+  "The code points of an ASCII string.
+
+  Not `(map int s)`. On the JVM a character is a `Character` and `int` of one
+  is its code point; under ClojureScript there is no character type, `(seq
+  s)` yields one-character STRINGS, and `int` of a string is 0. So `(map int
+  \"RIFF\")` is `[82 73 70 70]` here and `[0 0 0 0]` there — a WAV header
+  whose magic is four zero bytes, which is exactly the failure `wav-header`'s
+  docstring warns about: not an error, a transcript of noise."
+  [s]
+  #?(:clj (mapv #(bit-and (int %) 0xFF) (.getBytes ^String s "US-ASCII"))
+     :cljs (mapv #(.charCodeAt s %) (range (count s)))))
+
 (defn wav-header
   "A 44-byte μ-law WAV header for `n` bytes of payload.
 
@@ -185,11 +198,11 @@
   wrong one produces not an error but a transcript of noise."
   [n]
   (let [le (fn [v width] (mapv #(bit-and (bit-shift-right v (* 8 %)) 0xFF) (range width)))]
-    (vec (concat (map int "RIFF") (le (+ 38 n) 4)
-                 (map int "WAVEfmt ") (le 18 4)
+    (vec (concat (ascii "RIFF") (le (+ 38 n) 4)
+                 (ascii "WAVEfmt ") (le 18 4)
                  (le 7 2)                       ; format 7 = μ-law
                  (le 1 2)                       ; mono
                  (le sample-rate 4)
                  (le sample-rate 4)             ; byte rate = 8000 * 1 * 1
                  (le 1 2) (le 8 2) (le 0 2)     ; block align, bits, cbSize
-                 (map int "data") (le n 4)))))
+                 (ascii "data") (le n 4)))))
