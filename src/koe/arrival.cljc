@@ -36,7 +36,7 @@
   the call is treated as `:diverted-unknown` no matter what the provenance
   claims — a carrier that fills the Diversion header with the diverting number
   is not telling us who called."
-  (:require [clojure.string :as str]))
+  (:require [kotoba.lang.text :as str]))
 
 (def usable-provenance
   "The one provenance that yields a fact. An allowlist, so a provenance nobody

@@ -20,7 +20,7 @@
   The carrier sends 8 kHz μ-law and takes 8 kHz μ-law back. A host that renders
   its lines ahead of time in that same format never converts audio on the call. Audio coming in is decoded to linear only to measure
   loudness — the bytes handed to the speech engine are the original ones."
-  (:require [clojure.string :as str]))
+  (:require [kotoba.lang.text :as str]))
 
 (def frame-ms 20)
 (def sample-rate 8000)

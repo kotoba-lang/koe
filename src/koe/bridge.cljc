@@ -26,7 +26,7 @@
   is told to send `clear` and the queued audio is dropped. A receptionist that
   keeps talking over somebody is worse than a slow one, and this is the only
   state where an incoming frame means *stop* rather than *listen*."
-  (:require [clojure.string :as str]
+  (:require [kotoba.lang.text :as str]
             [koe.media :as media]))
 
 (def states
