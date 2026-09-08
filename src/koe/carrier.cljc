@@ -30,7 +30,7 @@
   presented `From` is the caller only when the upstream carrier passed it
   through, and no webhook field distinguishes 'passed through' from 'replaced' —
   so the number is trusted only on a call that arrived directly."
-  (:require [clojure.string :as str])
+  (:require [kotoba.lang.text :as str])
   #?(:clj (:import [javax.crypto Mac]
                    [javax.crypto.spec SecretKeySpec]
                    [java.util Base64])))
