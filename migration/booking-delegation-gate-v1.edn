@@ -2,7 +2,7 @@
  :status :qualified
  :implementation {:pull-request "https://github.com/kotoba-lang/koe/pull/1"
                   :merge-commit "b21894789359c49d643253102aa6eab1538691db"}
- :source-of-truth {:legacy "src/koe/session.cljc"
+ :source-of-truth {:legacy "src/koe/session.cljk"
                    :kernel "src/koe/booking_gate.kotoba"}
  :domain {:action [:none :book]
           :booking-present :binary :signed-by-present :binary
@@ -10,7 +10,7 @@
           :invalid-encoding-policy :fail-closed}
  :excluded [:dialog-state :utterance :reply :tts :audio :slot-proposal
             :signature-verification :booking-confirmation :host-ports]
- :evidence {:cljc-oracle "test/koe/booking_gate_matrix_test.clj"
+ :evidence {:cljc-oracle "test/koe/booking_gate_matrix_test.cljk"
             :kotoba-conformance "test/koe/booking_gate_conformance.kotoba"
             :web-wasm-verifier "scripts/verify-kotoba-booking-gate.mjs"
             :local {:clj {:tests 5 :assertions 25 :failures 0 :errors 0}
