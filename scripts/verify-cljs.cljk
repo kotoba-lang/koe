@@ -7,7 +7,7 @@
 ;; expectation was written the same way, so both sides degraded together and
 ;; the assertion passed.
 ;;
-;;   nbb --classpath "$(clojure -A:cljs -Spath)" scripts/verify-cljs.cljs
+;;   nbb --classpath "$(clojure -A:cljs -Spath)" scripts/verify-cljs.cljk
 (ns verify-cljs
   (:require [clojure.test :as t]
             [koe.media-test]))
