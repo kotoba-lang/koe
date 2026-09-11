@@ -10,7 +10,7 @@
        io.github.kotoba-lang/langgraph
         {:git/tag "v0.2.0" :sha "133740f3df2f4aa57e9e98b32f70e2483c025a7e"}}
  :aliases
- {;; classpath only, no :main-opts -- `clojure -A:cljs -Spath` resolves deps
+ {;; classpath only, no :main-opts -- `kbb -A:cljs -Spath` resolves deps
   ;; for nbb without the deprecation warning `-A` prints when the alias
   ;; carries a main.
   :cljs {:extra-paths ["test"]}

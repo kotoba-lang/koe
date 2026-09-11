@@ -65,5 +65,5 @@ utterances, TTS/audio, slot proposal, cryptographic signature verification,
 confirmation, and all host ports remain CLJC/host responsibilities.
 
 ```
-clojure -X:test
+kbb -X:test
 ```
