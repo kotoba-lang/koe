@@ -1,5 +1,5 @@
 (ns koe.booking-gate-matrix-test
-  (:require [clojure.test :refer [deftest is]]
+  (:require [kotoba.test :refer [deftest is]]
             [koe.session :as session]))
 
 (deftest complete-canonical-shape-matrix
