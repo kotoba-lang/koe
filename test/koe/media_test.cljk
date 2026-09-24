@@ -5,7 +5,7 @@
   where an utterance ends is the decision the whole turn hangs on, and it is
   entirely a function of the bytes. The G.711 values below are the standard's,
   not this code's."
-  (:require [clojure.test :refer [deftest is testing]]
+  (:require [kotoba.test :refer [deftest is testing]]
             [koe.media :as media]))
 
 ;; ── G.711 ────────────────────────────────────────────────────────────────────

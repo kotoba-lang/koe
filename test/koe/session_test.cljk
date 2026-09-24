@@ -1,5 +1,5 @@
 (ns koe.session-test
-  (:require [clojure.test :refer [deftest is testing]]
+  (:require [kotoba.test :refer [deftest is testing]]
             [koe.ports :as p]
             [koe.session :as s]))
 

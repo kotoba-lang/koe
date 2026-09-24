@@ -4,7 +4,7 @@
   This is the suite that stands in for the socket. Every decision a live call
   makes — when a sentence has ended, when the receptionist may speak, who wins
   when both talk — is exercised here without a carrier, a socket or a thread."
-  (:require [clojure.test :refer [deftest is testing]]
+  (:require [kotoba.test :refer [deftest is testing]]
             [koe.bridge :as bridge]
             [koe.media :as media]))
 
